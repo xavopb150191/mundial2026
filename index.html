@@ -484,7 +484,9 @@ async function fetchAllData(){
     renderAllStandings();
   } else {
     apiOk = false;
-    setApiStatus('error');
+    const now = new Date();
+    const kickoff = new Date('2026-06-11');
+    setApiStatus(now < kickoff ? 'pending' : 'error');
   }
 }
 
@@ -541,6 +543,10 @@ function setApiStatus(state){
     dot.classList.add('live');
     txt.textContent = '🔴 Partido en curso — actualizando cada 30s';
     txt.style.color = '#ff6666';
+  } else if(state === 'pending'){
+    dot.classList.add('ok');
+    txt.textContent = '⏳ Torneo comienza el 11 de junio — listo para datos en vivo';
+    txt.style.color = 'var(--gold)';
   } else if(state === 'error'){
     dot.classList.add('error');
     txt.textContent = 'Sin conexión — mostrando datos manuales';
