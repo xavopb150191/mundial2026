@@ -409,8 +409,8 @@ for(let d = new Date('2026-06-11'); d <= new Date('2026-07-19'); d.setDate(d.get
 }
 
 async function fetchESPN(dateStr){
-  const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}&limit=20`;
-  const r = await fetch(url, { signal: AbortSignal.timeout(8000) });
+  const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}&limit=200`;
+  const r = await fetch(url, { signal: AbortSignal.timeout(10000) });
   if(!r.ok) throw new Error('ESPN '+r.status);
   const j = await r.json();
   return (j.events||[]).map(ev=>{
@@ -418,7 +418,6 @@ async function fetchESPN(dateStr){
     const home = comp?.competitors?.find(c=>c.homeAway==='home');
     const away = comp?.competitors?.find(c=>c.homeAway==='away');
     const statusName = comp?.status?.type?.name||'';
-    const statusDesc = comp?.status?.type?.description||'';
     const live = statusName === 'STATUS_IN_PROGRESS';
     const finished = statusName === 'STATUS_FINAL';
     const hScore = parseInt(home?.score ?? '-1');
@@ -434,16 +433,25 @@ async function fetchESPN(dateStr){
   });
 }
 
-// Fetch today + yesterday + tomorrow to always catch live/recent matches
+// Fetch the FULL tournament range (start to today+1) so all past jornadas show up,
+// not just matches near "today". ESPN supports a date range like 20260611-20260623.
 async function fetchAllFromESPN(){
-  const today = new Date();
-  const days = [-1, 0, 1].map(offset => {
-    const d = new Date(today);
-    d.setDate(d.getDate() + offset);
-    return d.toISOString().slice(0,10).replace(/-/g,'');
-  });
-  const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
-  return results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+  const start = '20260611';
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const end = tomorrow.toISOString().slice(0,10).replace(/-/g,'');
+  try {
+    // Try a single range request first (more efficient)
+    return await fetchESPN(`${start}-${end}`);
+  } catch(err) {
+    // Fallback: fetch day-by-day for the elapsed part of the tournament
+    const days = [];
+    for(let d = new Date('2026-06-11'); d <= tomorrow; d.setDate(d.getDate()+1)){
+      days.push(d.toISOString().slice(0,10).replace(/-/g,''));
+    }
+    const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
+    return results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+  }
 }
 
 const SOURCES = [
@@ -451,9 +459,11 @@ const SOURCES = [
   async () => fetchAllFromESPN(),
   // 2. ESPN via allorigins proxy as fallback
   async () => {
-    const date = new Date().toISOString().slice(0,10).replace(/-/g,'');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
+    const end = tomorrow.toISOString().slice(0,10).replace(/-/g,'');
     const target = encodeURIComponent(
-      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${date}&limit=20`
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-${end}&limit=200`
     );
     const r = await fetch(`https://api.allorigins.win/get?url=${target}`, {
       signal: AbortSignal.timeout(10000)
