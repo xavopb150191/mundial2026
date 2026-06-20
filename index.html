@@ -420,9 +420,15 @@ async function fetchESPN(dateStr){
     const comp = ev.competitions?.[0];
     const home = comp?.competitors?.find(c=>c.homeAway==='home');
     const away = comp?.competitors?.find(c=>c.homeAway==='away');
-    const statusName = comp?.status?.type?.name||'';
-    const live = statusName === 'STATUS_IN_PROGRESS';
-    const finished = statusName === 'STATUS_FINAL';
+    const statusType = comp?.status?.type || {};
+    const statusName = statusType.name || '';
+    // ESPN marks completed matches with STATUS_FULL_TIME (and sometimes
+    // STATUS_FINAL for shootouts/extra time) — match on "completed" flag
+    // instead of guessing exact status name strings.
+    const finished = statusType.completed === true ||
+      ['STATUS_FULL_TIME','STATUS_FINAL','STATUS_FULL_TIME_AET','STATUS_FULL_TIME_PENALTIES'].includes(statusName);
+    const live = statusType.state === 'in' ||
+      ['STATUS_IN_PROGRESS','STATUS_FIRST_HALF','STATUS_SECOND_HALF','STATUS_HALFTIME','STATUS_EXTRA_TIME'].includes(statusName);
     const hScore = parseInt(home?.score ?? '-1');
     const aScore = parseInt(away?.score ?? '-1');
     return {
@@ -436,29 +442,33 @@ async function fetchESPN(dateStr){
   });
 }
 
-// Fetch the FULL tournament range (start to today+1) so all past jornadas show up,
-// not just matches near "today". The range query (dates=A-B) is unreliable on
-// this ESPN endpoint and silently falls back to "today only" — so we always
-// fetch every elapsed day individually, in parallel, which is reliable.
+// Fetch the FULL tournament range (start to today+1) so all past jornadas show up.
+// The single-day query (dates=YYYYMMDD) is unreliable on this endpoint, but the
+// range query (dates=A-B) has been confirmed to work correctly — use it as
+// primary, falling back to day-by-day only if the range request itself fails.
 async function fetchAllFromESPN(){
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+  const end = tomorrow.toISOString().slice(0,10).replace(/-/g,'');
 
-  const days = [];
-  for(let d = new Date('2026-06-11'); d <= tomorrow; d.setDate(d.getDate()+1)){
-    days.push(d.toISOString().slice(0,10).replace(/-/g,''));
+  try {
+    console.log('Pidiendo rango completo: 20260611-' + end);
+    const matches = await fetchESPN(`20260611-${end}`);
+    console.log(`Rango devolvió ${matches.length} partidos`);
+    if(matches.length === 0) throw new Error('Rango devolvió 0 partidos');
+    return matches;
+  } catch(err) {
+    console.warn('Consulta por rango falló, probando día por día:', err.message);
+    const days = [];
+    for(let d = new Date('2026-06-11'); d <= tomorrow; d.setDate(d.getDate()+1)){
+      days.push(d.toISOString().slice(0,10).replace(/-/g,''));
+    }
+    const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
+    const allMatches = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+    console.log(`Día por día encontró ${allMatches.length} partidos`);
+    if(allMatches.length === 0) throw new Error('Sin datos en ninguna fuente');
+    return allMatches;
   }
-
-  console.log(`Pidiendo ${days.length} días: ${days[0]} a ${days[days.length-1]}`);
-  const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
-  const ok = results.filter(r => r.status === 'fulfilled').length;
-  console.log(`${ok}/${days.length} días respondieron correctamente`);
-
-  const allMatches = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-  console.log(`Total de partidos encontrados: ${allMatches.length}`, allMatches);
-
-  if(allMatches.length === 0) throw new Error('ESPN devolvió 0 partidos en todos los días');
-  return allMatches;
 }
 
 const SOURCES = [
@@ -482,14 +492,19 @@ const SOURCES = [
       const comp = ev.competitions?.[0];
       const home = comp?.competitors?.find(c=>c.homeAway==='home');
       const away = comp?.competitors?.find(c=>c.homeAway==='away');
-      const statusName = comp?.status?.type?.name||'';
+      const statusType = comp?.status?.type || {};
+      const statusName = statusType.name || '';
+      const finished = statusType.completed === true ||
+        ['STATUS_FULL_TIME','STATUS_FINAL','STATUS_FULL_TIME_AET','STATUS_FULL_TIME_PENALTIES'].includes(statusName);
+      const live = statusType.state === 'in' ||
+        ['STATUS_IN_PROGRESS','STATUS_FIRST_HALF','STATUS_SECOND_HALF','STATUS_HALFTIME','STATUS_EXTRA_TIME'].includes(statusName);
       return {
         home_team_en: home?.team?.displayName||'',
         away_team_en: away?.team?.displayName||'',
         home_score: parseInt(home?.score??'-1'),
         away_score: parseInt(away?.score??'-1'),
-        finished: statusName==='STATUS_FINAL',
-        time_elapsed: statusName==='STATUS_IN_PROGRESS'?'h1':statusName==='STATUS_FINAL'?'finished':'notstarted'
+        finished,
+        time_elapsed: live ? 'h1' : finished ? 'finished' : 'notstarted'
       };
     });
   }
