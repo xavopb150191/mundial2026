@@ -149,7 +149,55 @@ main{max-width:1400px;margin:0 auto;padding:2.5rem 2rem 6rem}
 .btn-edit:hover{border-color:var(--gold);color:var(--gold)}
 .empty-state{text-align:center;padding:4rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;color:var(--muted);letter-spacing:.1em}
 .empty-state span{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:rgba(201,168,76,.15);margin-bottom:.5rem}
+/* BRACKET */
+.bracket-header{margin-bottom:1.5rem}
+.bracket-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--text);line-height:1}
+.bracket-title span{color:var(--gold)}
+.bracket-subtitle{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-top:.4rem}
+.bracket-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin:1rem 0 1.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;color:var(--muted);letter-spacing:.05em}
+.bracket-legend span{display:flex;align-items:center;gap:.4rem}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.bracket-rounds-nav{display:flex;gap:.3rem;overflow-x:auto;padding-bottom:1rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);scrollbar-width:none}
+.bracket-rounds-nav::-webkit-scrollbar{display:none}
+.round-jump-btn{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:.5rem 1rem;cursor:pointer;border-radius:2px;white-space:nowrap;transition:all .2s}
+.round-jump-btn:hover{border-color:var(--gold);color:var(--gold)}
+.round-block{margin-bottom:3rem}
+.round-block-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.round-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);letter-spacing:.03em}
+.round-dates{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.ko-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.ko-card{background:var(--card);position:relative;overflow:hidden;transition:background .15s}
+.ko-card:hover{background:var(--dark3)}
+.ko-card.ko-decided{background:rgba(201,168,76,.04)}
+.ko-inner{padding:1.1rem 1.4rem}
+.ko-meta-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.ko-match-label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.ko-date{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--muted)}
+.ko-team-row{display:flex;align-items:center;gap:.7rem;padding:.35rem 0}
+.ko-team-row.ko-winner .ko-team-name{color:var(--gold-l);font-weight:700}
+.ko-team-row.ko-loser .ko-team-name{color:var(--muted);opacity:.6}
+.ko-team-name{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;flex:1}
+.ko-team-name.ko-tbd{color:var(--muted);font-weight:400;font-style:italic;font-size:.85rem;text-transform:none}
+.ko-score-box{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;min-width:2.4rem;text-align:center;padding:.15rem .4rem;background:var(--dark3);border:1px solid var(--border);border-radius:2px;color:var(--text)}
+.ko-score-box.has-score{border-color:rgba(201,168,76,.4);color:var(--gold-l)}
+.ko-vs-divider{height:1px;background:var(--border);margin:.3rem 0}
+.ko-venue{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--muted);margin-top:.6rem;display:flex;justify-content:space-between}
+.ko-edit-trigger{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;cursor:pointer;margin-top:.6rem;display:inline-block;opacity:.8;transition:opacity .2s}
+.ko-edit-trigger:hover{opacity:1}
+.ko-edit-panel{display:none;background:var(--dark2);border-top:1px solid var(--border);padding:1rem 1.4rem;flex-direction:column;gap:.8rem;align-items:center}
+.ko-edit-panel.open{display:flex}
+.ko-edit-row{display:flex;align-items:center;gap:.6rem;justify-content:center}
+.ko-edit-label{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;color:var(--muted);max-width:110px;text-align:center;line-height:1.2}
+.ko-pen-note{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--muted);text-align:center;line-height:1.4}
+.ko-pen-btns{display:flex;gap:.5rem}
+.ko-pen-btn{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;padding:.3rem .8rem;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:2px;transition:all .2s}
+.ko-pen-btn:hover,.ko-pen-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08)}
+.ko-projection-tag{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;letter-spacing:.2em;color:var(--green);text-transform:uppercase;display:inline-flex;align-items:center;gap:.3rem;margin-top:.6rem}
+.ko-proj-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite}
+
 footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+
+
 </style>
 </head>
 <body>
@@ -186,6 +234,7 @@ footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);font-
 <nav class="main-nav">
   <div class="main-nav-inner">
     <button class="tab-btn active" onclick="switchTab('grupos')">⚽ Grupos & Fixture</button>
+    <button class="tab-btn" onclick="switchTab('bracket')">🏆 Eliminatoria</button>
     <button class="tab-btn" onclick="switchTab('goleadores')">🥅 Tabla de Goleadores</button>
   </div>
 </nav>
@@ -198,10 +247,22 @@ footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);font-
   <div class="tab-view visible" id="tab-grupos">
     <div id="groupViews"></div>
   </div>
+  <div class="tab-view" id="tab-bracket">
+    <div class="bracket-header">
+      <div class="bracket-title">Fase de <span>Eliminación</span></div>
+      <div class="bracket-subtitle">Ronda de 32 · 28 jun &nbsp;→&nbsp; Gran Final · 19 jul, MetLife Stadium</div>
+    </div>
+    <div class="bracket-legend" id="bracketLegend"></div>
+    <div class="bracket-rounds-nav" id="bracketRoundsNav"></div>
+    <div id="bracketContainer"></div>
+  </div>
   <div class="tab-view" id="tab-goleadores">
     <div class="scorers-header">
-      <div class="scorers-title">Tabla de <span>Goleadores</span></div>
-      <button class="btn-add" onclick="toggleScorerForm()">+ Agregar Goleador</button>
+      <div>
+        <div class="scorers-title">Tabla de <span>Goleadores</span></div>
+        <div class="standings-live" style="margin-top:.4rem"><span class="live-dot"></span> Se detectan automáticamente con cada partido jugado</div>
+      </div>
+      <button class="btn-add" onclick="toggleScorerForm()">+ Corrección manual</button>
     </div>
     <div class="scorer-form" id="scorerForm">
       <div class="form-title" id="formTitle">Nuevo Goleador</div>
@@ -373,25 +434,91 @@ const GROUPS = {
 };
 
 // ─────────────────────────────────────────────────
+// KNOCKOUT BRACKET — Ronda de 32 → Final
+// Slot types: {t:'pos',g:'A',p:1} = 1st/2nd of a group
+//             {t:'third',c:['A','B',...]} = best-3rd from candidate groups
+//             {t:'win',m:'M89'} / {t:'lose',m:'M101'} = winner/loser of another KO match
+// ─────────────────────────────────────────────────
+const KO_MATCHES = [
+  // Ronda de 32 — 28 jun a 3 jul
+  {id:'M73',round:'R32',date:'28 jun',venue:'SoFi Stadium, Los Ángeles',   a:{t:'pos',g:'A',p:2}, b:{t:'pos',g:'B',p:2}},
+  {id:'M74',round:'R32',date:'29 jun',venue:'Gillette Stadium, Boston',     a:{t:'pos',g:'E',p:1}, b:{t:'third',c:['A','B','C','D','F']}},
+  {id:'M75',round:'R32',date:'29 jun',venue:'Estadio BBVA, Monterrey',      a:{t:'pos',g:'F',p:1}, b:{t:'pos',g:'C',p:2}},
+  {id:'M76',round:'R32',date:'29 jun',venue:'NRG Stadium, Houston',         a:{t:'pos',g:'C',p:1}, b:{t:'pos',g:'F',p:2}},
+  {id:'M77',round:'R32',date:'30 jun',venue:'MetLife Stadium, Nueva Jersey',a:{t:'pos',g:'I',p:1}, b:{t:'third',c:['C','D','F','G','H']}},
+  {id:'M78',round:'R32',date:'30 jun',venue:'AT&T Stadium, Dallas',         a:{t:'pos',g:'E',p:2}, b:{t:'pos',g:'I',p:2}},
+  {id:'M79',round:'R32',date:'30 jun',venue:'Estadio Azteca, CDMX',         a:{t:'pos',g:'A',p:1}, b:{t:'third',c:['C','E','F','H','I']}},
+  {id:'M80',round:'R32',date:'1 jul', venue:'Mercedes-Benz Stadium, Atlanta',a:{t:'pos',g:'L',p:1}, b:{t:'third',c:['E','H','I','J','K']}},
+  {id:'M81',round:'R32',date:'1 jul', venue:"Levi's Stadium, Santa Clara",  a:{t:'pos',g:'D',p:1}, b:{t:'third',c:['B','E','F','I','J']}},
+  {id:'M82',round:'R32',date:'1 jul', venue:'Lumen Field, Seattle',         a:{t:'pos',g:'G',p:1}, b:{t:'third',c:['A','E','H','I','J']}},
+  {id:'M83',round:'R32',date:'2 jul', venue:'BMO Field, Toronto',           a:{t:'pos',g:'K',p:2}, b:{t:'pos',g:'L',p:2}},
+  {id:'M84',round:'R32',date:'2 jul', venue:'SoFi Stadium, Los Ángeles',    a:{t:'pos',g:'H',p:1}, b:{t:'pos',g:'J',p:2}},
+  {id:'M85',round:'R32',date:'2 jul', venue:'BC Place, Vancouver',          a:{t:'pos',g:'B',p:1}, b:{t:'third',c:['E','F','G','I','J']}},
+  {id:'M86',round:'R32',date:'3 jul', venue:'Hard Rock Stadium, Miami',     a:{t:'pos',g:'J',p:1}, b:{t:'pos',g:'H',p:2}},
+  {id:'M87',round:'R32',date:'3 jul', venue:'Arrowhead Stadium, Kansas City',a:{t:'pos',g:'K',p:1}, b:{t:'third',c:['D','E','I','J','L']}},
+  {id:'M88',round:'R32',date:'3 jul', venue:'AT&T Stadium, Dallas',         a:{t:'pos',g:'D',p:2}, b:{t:'pos',g:'G',p:2}},
+  // Octavos de Final — 4 a 7 jul
+  {id:'M89',round:'R16',date:'4 jul', venue:'Lincoln Financial Field, Philadelphia',a:{t:'win',m:'M74'},b:{t:'win',m:'M77'}},
+  {id:'M90',round:'R16',date:'4 jul', venue:'NRG Stadium, Houston',                  a:{t:'win',m:'M73'},b:{t:'win',m:'M75'}},
+  {id:'M91',round:'R16',date:'5 jul', venue:'MetLife Stadium, Nueva Jersey',         a:{t:'win',m:'M76'},b:{t:'win',m:'M78'}},
+  {id:'M92',round:'R16',date:'5 jul', venue:'Estadio Azteca, CDMX',                  a:{t:'win',m:'M79'},b:{t:'win',m:'M80'}},
+  {id:'M93',round:'R16',date:'6 jul', venue:'AT&T Stadium, Dallas',                  a:{t:'win',m:'M83'},b:{t:'win',m:'M84'}},
+  {id:'M94',round:'R16',date:'6 jul', venue:'Lumen Field, Seattle',                  a:{t:'win',m:'M81'},b:{t:'win',m:'M82'}},
+  {id:'M95',round:'R16',date:'7 jul', venue:'Mercedes-Benz Stadium, Atlanta',        a:{t:'win',m:'M86'},b:{t:'win',m:'M88'}},
+  {id:'M96',round:'R16',date:'7 jul', venue:'BC Place, Vancouver',                   a:{t:'win',m:'M85'},b:{t:'win',m:'M87'}},
+  // Cuartos de Final — 9 a 11 jul
+  {id:'M97', round:'QF',date:'9 jul', venue:'Gillette Stadium, Boston',        a:{t:'win',m:'M89'},b:{t:'win',m:'M90'}},
+  {id:'M98', round:'QF',date:'10 jul',venue:'SoFi Stadium, Los Ángeles',       a:{t:'win',m:'M93'},b:{t:'win',m:'M94'}},
+  {id:'M99', round:'QF',date:'11 jul',venue:'Hard Rock Stadium, Miami',        a:{t:'win',m:'M91'},b:{t:'win',m:'M92'}},
+  {id:'M100',round:'QF',date:'11 jul',venue:'Arrowhead Stadium, Kansas City',  a:{t:'win',m:'M95'},b:{t:'win',m:'M96'}},
+  // Semifinales — 14 a 15 jul
+  {id:'M101',round:'SF',date:'14 jul',venue:'AT&T Stadium, Dallas',           a:{t:'win',m:'M97'},b:{t:'win',m:'M98'}},
+  {id:'M102',round:'SF',date:'15 jul',venue:'Mercedes-Benz Stadium, Atlanta', a:{t:'win',m:'M99'},b:{t:'win',m:'M100'}},
+  // Tercer lugar y Gran Final — 18 a 19 jul
+  {id:'M103',round:'3RD',date:'18 jul',venue:'Hard Rock Stadium, Miami',          a:{t:'lose',m:'M101'},b:{t:'lose',m:'M102'}},
+  {id:'M104',round:'FINAL',date:'19 jul',venue:'MetLife Stadium, Nueva Jersey',   a:{t:'win',m:'M101'},b:{t:'win',m:'M102'}},
+];
+
+const ROUND_LABELS = {
+  R32:{name:'Ronda de 32',dates:'28 Jun – 3 Jul'},
+  R16:{name:'Octavos de Final',dates:'4 – 7 Jul'},
+  QF:{name:'Cuartos de Final',dates:'9 – 11 Jul'},
+  SF:{name:'Semifinales',dates:'14 – 15 Jul'},
+  '3RD':{name:'Tercer Lugar',dates:'18 Jul'},
+  FINAL:{name:'Gran Final',dates:'19 Jul · MetLife Stadium'},
+};
+const ROUND_ORDER = ['R32','R16','QF','SF','3RD','FINAL'];
+
+
+
+// ─────────────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────────────
 let currentTab = 'grupos';
 let currentGroup = 'A';
 let apiScores = {};      // Scores from API  { matchId: {h,a,live,finished} }
 let manualScores = {};   // Manual overrides { matchId: {h,a} }
+let bracketScores = {};  // Knockout scores  { matchId: {h,a,penA,penB,winner:'a'|'b'} }
 let scorers = [];
 let sortKey = 'goals';
 let editingScorerId = null;
 let apiOk = false;
 let lastUpdated = null;
 let refreshTimer = null;
+let espnEventIds = {};      // our match id -> ESPN event id
+let matchEventsCache = {};  // espn event id -> { goals:[{name,team,assist}], cachedFinal }
+let autoScorersLoading = false;
 
 try { manualScores = JSON.parse(localStorage.getItem('wc26-scores')||'{}'); } catch(e){}
+try { bracketScores = JSON.parse(localStorage.getItem('wc26-bracket')||'{}'); } catch(e){}
 try { scorers = JSON.parse(localStorage.getItem('wc26-scorers')||'[]'); } catch(e){}
 
 function saveLocal(){
   try { localStorage.setItem('wc26-scores', JSON.stringify(manualScores)); } catch(e){}
   try { localStorage.setItem('wc26-scorers', JSON.stringify(scorers)); } catch(e){}
+}
+function saveBracket(){
+  try { localStorage.setItem('wc26-bracket', JSON.stringify(bracketScores)); } catch(e){}
 }
 
 // Merge: API wins unless manual override exists
@@ -432,6 +559,7 @@ async function fetchESPN(dateStr){
     const hScore = parseInt(home?.score ?? '-1');
     const aScore = parseInt(away?.score ?? '-1');
     return {
+      espn_id: ev.id || comp?.id || '',
       home_team_en: home?.team?.displayName||'',
       away_team_en: away?.team?.displayName||'',
       home_score: hScore,
@@ -537,6 +665,8 @@ async function fetchAllData(){
     setApiStatus('ok');
     renderAllMatches();
     renderAllStandings();
+    if(currentTab==='bracket') renderBracket();
+    updateAutoScorers(); // async, fire-and-forget — refreshes goleadores tab itself
   } else {
     apiOk = false;
     const now = new Date();
@@ -576,6 +706,7 @@ function processApiGames(data){
             apiScores[m.id] = {h, a, live, finished};
             matchedCount++;
           }
+          if(g.espn_id) espnEventIds[m.id] = g.espn_id;
         }
       }
     }
@@ -585,6 +716,7 @@ function processApiGames(data){
   });
 
   console.log(`✓ ${matchedCount} resultados aplicados a partidos conocidos`);
+  console.log('📋 Detalle de apiScores (revisa la columna "finished"):', JSON.parse(JSON.stringify(apiScores)));
   if(unmatched.length){
     console.log(`⚠ ${unmatched.length} partidos de ESPN NO coincidieron con nuestra base:`, unmatched);
   }
@@ -655,6 +787,270 @@ function calcStandings(gKey){
 }
 
 function renderAllStandings(){ Object.keys(GROUPS).forEach(g=>renderStandings(g)); }
+
+// ─────────────────────────────────────────────────
+// KNOCKOUT BRACKET LOGIC
+// ─────────────────────────────────────────────────
+
+// Best-8-third-placed teams across all 12 groups, with standard FIFA tiebreak
+// (points, goal difference, goals for). Returns [{group,team,pts,gd,gf}, ...]
+// sorted best-first, with a `qualified` flag on the top 8.
+function getBestThirds(){
+  const thirds = Object.keys(GROUPS).map(g=>{
+    const standings = calcStandings(g);
+    const t = standings[2]; // 3rd place
+    return {group:g, team:t.team, pj:t.pj, pts:t.pts, gd:t.gd, gf:t.gf};
+  });
+  thirds.sort((a,b)=> b.pts-a.pts || b.gd-a.gd || b.gf-a.gf);
+  thirds.forEach((t,i)=>{ t.qualified = i < 8; });
+  return thirds;
+}
+
+// Assigns each of the 8 qualified third-place teams to the R32 slot that
+// needs a "3rd from group list X" — using most-constrained-first greedy
+// matching against each slot's candidate-group list (mirrors how FIFA's
+// official 495-combination table works in practice).
+function assignThirdSlots(){
+  const thirds = getBestThirds().filter(t=>t.qualified);
+  const thirdSlots = KO_MATCHES.filter(m=>m.b.t==='third').map(m=>({matchId:m.id, candidates:m.b.c}));
+  const usedGroups = new Set();
+  const assignment = {}; // matchId -> {group,team}
+
+  let remaining = thirdSlots.slice();
+  while(remaining.length){
+    // sort by fewest remaining eligible candidates first
+    remaining.sort((s1,s2)=>{
+      const e1 = s1.candidates.filter(g=>!usedGroups.has(g) && thirds.some(t=>t.group===g)).length;
+      const e2 = s2.candidates.filter(g=>!usedGroups.has(g) && thirds.some(t=>t.group===g)).length;
+      return e1-e2;
+    });
+    const slot = remaining.shift();
+    const eligibleGroups = slot.candidates.filter(g=>!usedGroups.has(g) && thirds.some(t=>t.group===g));
+    if(eligibleGroups.length===0) continue; // not yet resolvable
+    const chosenGroup = eligibleGroups[0];
+    const team = thirds.find(t=>t.group===chosenGroup);
+    assignment[slot.matchId] = {group:chosenGroup, team:team.team};
+    usedGroups.add(chosenGroup);
+  }
+  return assignment;
+}
+
+// Resolves a slot ({t:'pos'|'third'|'win'|'lose', ...}) to a display name,
+// or null if not yet determinable. `final` = true once group stage matches
+// are all played (so we know this is the REAL qualifier, not a live projection).
+function resolveSlot(slot, thirdAssignment){
+  if(slot.t === 'pos'){
+    const standings = calcStandings(slot.g);
+    return standings[slot.p-1]?.team || null;
+  }
+  if(slot.t === 'third'){
+    const found = Object.entries(thirdAssignment).find(([mid,info])=> slot._matchId && mid===slot._matchId);
+    return null; // resolved separately via thirdAssignment lookup in caller
+  }
+  if(slot.t === 'win' || slot.t === 'lose'){
+    const koMatch = KO_MATCHES.find(m=>m.id===slot.m);
+    if(!koMatch) return null;
+    const result = getKoResult(koMatch.id);
+    if(!result || !result.winner) return null;
+    const winnerSide = result.winner; // 'a' or 'b'
+    const wantSide = slot.t === 'win' ? winnerSide : (winnerSide==='a'?'b':'a');
+    return getKoTeamName(koMatch, wantSide, thirdAssignment);
+  }
+  return null;
+}
+
+function getKoTeamName(koMatch, side, thirdAssignment){
+  const slot = koMatch[side];
+  if(slot.t === 'third'){
+    const info = thirdAssignment[koMatch.id];
+    return info ? info.team : null;
+  }
+  return resolveSlot(slot, thirdAssignment);
+}
+
+// Manual score / winner for a knockout match
+function getKoResult(matchId){
+  const s = bracketScores[matchId];
+  if(!s) return null;
+  if(s.winner) return s; // explicit winner set (incl. penalty shootout case)
+  if(s.h != null && s.a != null && s.h !== '' && s.a !== ''){
+    if(+s.h > +s.a) return {...s, winner:'a'};
+    if(+s.h < +s.a) return {...s, winner:'b'};
+  }
+  return s.h != null ? {...s} : null; // tie with no winner chosen yet
+}
+
+function getSlotLabel(slot){
+  if(slot.t === 'pos') return `${slot.p}°${slot.g}`;
+  if(slot.t === 'third') return `Mejor 3° (${slot.c.join('/')})`;
+  if(slot.t === 'win') return `Ganador ${slot.m}`;
+  if(slot.t === 'lose') return `Perdedor ${slot.m}`;
+  return '?';
+}
+
+function renderBracketLegend(){
+  const groupStageComplete = Object.keys(GROUPS).every(g =>
+    GROUPS[g].matches.every(m => getScore(m.id) !== null)
+  );
+  const el = document.getElementById('bracketLegend');
+  if(!el) return;
+  el.innerHTML = groupStageComplete
+    ? `<span><span class="legend-dot" style="background:var(--gold)"></span>Cuadro oficial confirmado</span>`
+    : `<span><span class="legend-dot" style="background:var(--green)"></span>Proyección en vivo — se actualiza con cada resultado de grupos</span>
+       <span><span class="legend-dot" style="background:var(--muted)"></span>Casillas en cursiva = aún sin definir</span>`;
+}
+
+function renderBracketRoundsNav(){
+  const el = document.getElementById('bracketRoundsNav');
+  if(!el) return;
+  el.innerHTML = ROUND_ORDER.map(r=>
+    `<button class="round-jump-btn" onclick="scrollToRound('${r}')">${ROUND_LABELS[r].name}</button>`
+  ).join('');
+}
+function scrollToRound(r){
+  const el = document.getElementById('round-'+r);
+  if(el){
+    const offset = document.querySelector('.main-nav').offsetHeight + 20;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({top, behavior:'smooth'});
+  }
+}
+
+function renderBracket(){
+  renderBracketLegend();
+  renderBracketRoundsNav();
+  const thirdAssignment = assignThirdSlots();
+  const container = document.getElementById('bracketContainer');
+  if(!container) return;
+
+  container.innerHTML = ROUND_ORDER.map(round=>{
+    const matches = KO_MATCHES.filter(m=>m.round===round);
+    const cards = matches.map(m=>renderKoCard(m, thirdAssignment)).join('');
+    return `
+      <div class="round-block" id="round-${round}">
+        <div class="round-block-header">
+          <span class="round-name">${ROUND_LABELS[round].name}</span>
+          <span class="round-dates">${ROUND_LABELS[round].dates}</span>
+        </div>
+        <div class="ko-grid">${cards}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderKoCard(m, thirdAssignment){
+  const nameA = getKoTeamName(m, 'a', thirdAssignment);
+  const nameB = getKoTeamName(m, 'b', thirdAssignment);
+  const labelA = nameA || `<em>${getSlotLabel(m.a)}</em>`;
+  const labelB = nameB || `<em>${getSlotLabel(m.b)}</em>`;
+  const result = getKoResult(m.id);
+  const decided = result && result.winner;
+  const scoreA = result && result.h != null ? result.h : '';
+  const scoreB = result && result.a != null ? result.a : '';
+  const flagA = nameA ? flag(nameA) : '';
+  const flagB = nameB ? flag(nameB) : '';
+  const canEdit = nameA && nameB;
+
+  return `
+    <div class="ko-card${decided?' ko-decided':''}" id="ko-${m.id}">
+      <div class="ko-inner">
+        <div class="ko-meta-top">
+          <span class="ko-match-label">${m.id}</span>
+          <span class="ko-date">${m.date}</span>
+        </div>
+        <div class="ko-team-row${decided && result.winner==='a'?' ko-winner':decided?' ko-loser':''}">
+          <span class="ko-team-name${!nameA?' ko-tbd':''}">${flagA} ${labelA}</span>
+          <span class="ko-score-box${scoreA!==''?' has-score':''}">${scoreA!==''?scoreA:'–'}</span>
+        </div>
+        <div class="ko-vs-divider"></div>
+        <div class="ko-team-row${decided && result.winner==='b'?' ko-winner':decided?' ko-loser':''}">
+          <span class="ko-team-name${!nameB?' ko-tbd':''}">${flagB} ${labelB}</span>
+          <span class="ko-score-box${scoreB!==''?' has-score':''}">${scoreB!==''?scoreB:'–'}</span>
+        </div>
+        <div class="ko-venue"><span>${m.venue}</span></div>
+        ${canEdit ? `<span class="ko-edit-trigger" onclick="toggleKoEdit('${m.id}',event)">✎ ${decided?'Editar resultado':'Capturar resultado'}</span>` : ''}
+      </div>
+      ${canEdit ? `
+      <div class="ko-edit-panel" id="koedit-${m.id}">
+        <div class="ko-edit-row">
+          <span class="ko-edit-label">${nameA}</span>
+          <input class="score-inp" type="number" min="0" max="20" id="koih-${m.id}" value="${scoreA}" style="width:3rem">
+          <span class="score-dash">–</span>
+          <input class="score-inp" type="number" min="0" max="20" id="koia-${m.id}" value="${scoreB}" style="width:3rem">
+          <span class="ko-edit-label">${nameB}</span>
+        </div>
+        <div class="ko-pen-note" id="kopennote-${m.id}" style="display:none">
+          Empate — elige quién avanzó en penales:
+          <div class="ko-pen-btns">
+            <button class="ko-pen-btn" onclick="setKoPenWinner('${m.id}','a')" id="kopenA-${m.id}">${nameA}</button>
+            <button class="ko-pen-btn" onclick="setKoPenWinner('${m.id}','b')" id="kopenB-${m.id}">${nameB}</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-confirm" onclick="saveKoScore('${m.id}')">✓ Guardar</button>
+          <button class="btn-cancel" onclick="closeKoEdit('${m.id}')">✕</button>
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+let openKoEdit = null;
+let pendingPenWinner = {};
+function toggleKoEdit(id, e){
+  e && e.stopPropagation();
+  if(openKoEdit && openKoEdit!==id) closeKoEdit(openKoEdit);
+  const el = document.getElementById('koedit-'+id);
+  if(!el) return;
+  if(el.classList.contains('open')){ closeKoEdit(id); return; }
+  el.classList.add('open');
+  openKoEdit = id;
+  checkKoTie(id);
+}
+function closeKoEdit(id){
+  const el = document.getElementById('koedit-'+id);
+  if(el) el.classList.remove('open');
+  if(openKoEdit===id) openKoEdit=null;
+}
+function checkKoTie(id){
+  const h = document.getElementById('koih-'+id)?.value;
+  const a = document.getElementById('koia-'+id)?.value;
+  const note = document.getElementById('kopennote-'+id);
+  if(!note) return;
+  if(h!=='' && a!=='' && h===a){ note.style.display='block'; }
+  else { note.style.display='none'; delete pendingPenWinner[id]; }
+}
+function setKoPenWinner(id, side){
+  pendingPenWinner[id] = side;
+  document.getElementById('kopenA-'+id)?.classList.toggle('active', side==='a');
+  document.getElementById('kopenB-'+id)?.classList.toggle('active', side==='b');
+}
+function saveKoScore(id){
+  const h = document.getElementById('koih-'+id).value;
+  const a = document.getElementById('koia-'+id).value;
+  if(h===''||a===''){ closeKoEdit(id); return; }
+  const entry = {h:+h, a:+a};
+  if(h===a){
+    if(!pendingPenWinner[id]){ checkKoTie(id); return; } // force pick before saving
+    entry.winner = pendingPenWinner[id];
+  }
+  bracketScores[id] = entry;
+  saveBracket();
+  closeKoEdit(id);
+  renderBracket();
+}
+
+// Hook into score-input listeners for tie detection (delegated)
+document.addEventListener('input', e=>{
+  if(e.target && e.target.id && e.target.id.startsWith('koih-')){
+    checkKoTie(e.target.id.replace('koih-',''));
+  }
+  if(e.target && e.target.id && e.target.id.startsWith('koia-')){
+    checkKoTie(e.target.id.replace('koia-',''));
+  }
+});
+
+
 
 function renderStandings(gKey){
   const el = document.getElementById('std-'+gKey);
@@ -795,6 +1191,7 @@ function saveScore(id, gKey){
   updateMatchCard(id);
   closeEdit(id);
   renderStandings(gKey);
+  if(currentTab==='bracket') renderBracket();
 }
 
 // ─────────────────────────────────────────────────
@@ -808,13 +1205,15 @@ function renderGroupButtons(){
 }
 function switchTab(tab){
   currentTab=tab;
+  const tabOrder = ['grupos','bracket','goleadores'];
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active',(i===0&&tab==='grupos')||(i===1&&tab==='goleadores'));
+    b.classList.toggle('active', tabOrder[i]===tab);
   });
   document.querySelectorAll('.tab-view').forEach(v=>v.classList.remove('visible'));
   document.getElementById('tab-'+tab).classList.add('visible');
   document.getElementById('groupBar').style.display = tab==='grupos'?'block':'none';
   if(tab==='goleadores') renderScorers();
+  if(tab==='bracket') renderBracket();
 }
 function selectGroup(g){
   document.querySelectorAll('.group-view').forEach(v=>v.classList.remove('visible'));
@@ -823,6 +1222,118 @@ function selectGroup(g){
   document.getElementById('gv-'+g)?.classList.add('visible');
   const idx=Object.keys(GROUPS).indexOf(g);
   document.querySelectorAll('.grp-btn')[idx]?.classList.add('active');
+}
+
+// ─────────────────────────────────────────────────
+// AUTO-SCORERS — pulled automatically from ESPN match details
+// ─────────────────────────────────────────────────
+
+// Fetch the detailed event summary for one match and extract goal events.
+// Defensive: ESPN's soccer "keyEvents" shape can vary, so we check a few
+// plausible field paths and just skip anything we can't confidently parse.
+async function fetchMatchGoals(espnId, homeTeam, awayTeam){
+  const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${espnId}`;
+  const r = await fetch(url, { signal: AbortSignal.timeout(10000) });
+  if(!r.ok) throw new Error('summary '+r.status);
+  const j = await r.json();
+
+  const rawEvents = j.keyEvents || j.scoringPlays || j.plays || [];
+  const goals = [];
+
+  rawEvents.forEach(ev=>{
+    const typeText = (ev.type?.text || ev.type?.name || ev.text || '').toLowerCase();
+    const isGoal = ev.scoringPlay === true || typeText.includes('goal');
+    const isCard = typeText.includes('card') || typeText.includes('yellow') || typeText.includes('red');
+    if(!isGoal || isCard) return;
+
+    const isOwnGoal = typeText.includes('own goal');
+    const teamName = norm(ev.team?.displayName || ev.team?.name || '');
+    const involved = ev.athletesInvolved || ev.participants || [];
+    const scorerName = involved[0]?.displayName || involved[0]?.athlete?.displayName ||
+                        ev.athlete?.displayName || ev.player?.displayName || null;
+    const assistName = involved[1]?.displayName || involved[1]?.athlete?.displayName || null;
+
+    if(scorerName){
+      // Own goals credit the team that BENEFITS (the opponent), per scoring
+      // convention used by official goalscorer tables.
+      const creditTeam = isOwnGoal
+        ? (teamName === homeTeam ? awayTeam : homeTeam)
+        : teamName;
+      goals.push({ name: scorerName, team: creditTeam, assist: assistName, ownGoal: isOwnGoal });
+    }
+  });
+
+  return goals;
+}
+
+// Refresh the auto-scorers table from all group-stage matches that have
+// started. Finished matches are cached (fetched once); live matches are
+// re-fetched every cycle to catch new goals.
+async function updateAutoScorers(){
+  if(autoScorersLoading) return;
+  autoScorersLoading = true;
+
+  const toFetch = [];
+  Object.keys(GROUPS).forEach(gKey=>{
+    GROUPS[gKey].matches.forEach(m=>{
+      const espnId = espnEventIds[m.id];
+      const score = apiScores[m.id];
+      if(!espnId || !score) return;
+      const cached = matchEventsCache[espnId];
+      if(cached && cached.cachedFinal) return; // already final, no need to refetch
+      toFetch.push({ matchId: m.id, espnId, home: m.home, away: m.away, finished: score.finished });
+    });
+  });
+
+  if(toFetch.length){
+    console.log(`⚽ Buscando goleadores en ${toFetch.length} partido(s)...`);
+    const results = await Promise.allSettled(
+      toFetch.map(x => fetchMatchGoals(x.espnId, x.home, x.away))
+    );
+    results.forEach((res, i)=>{
+      const x = toFetch[i];
+      if(res.status === 'fulfilled'){
+        matchEventsCache[x.espnId] = { goals: res.value, cachedFinal: x.finished };
+      } else {
+        console.warn(`No se pudieron obtener goles de ${x.matchId}:`, res.reason?.message);
+      }
+    });
+  }
+
+  // Rebuild the auto-scorers aggregate from all cached match events
+  const agg = {}; // key: team|name -> {name,team,goals,assists}
+  Object.values(matchEventsCache).forEach(entry=>{
+    (entry.goals||[]).forEach(g=>{
+      const key = g.team+'|'+g.name;
+      if(!agg[key]) agg[key] = { name:g.name, team:g.team, goals:0, assists:0 };
+      agg[key].goals++;
+      if(g.assist){
+        const akey = g.team+'|'+g.assist;
+        if(!agg[akey]) agg[akey] = { name:g.assist, team:g.team, goals:0, assists:0 };
+        agg[akey].assists++;
+      }
+    });
+  });
+
+  // Merge into the main `scorers` array — auto entries get a stable id
+  // derived from team+name so re-running this updates the same row
+  // instead of duplicating it. Manual entries (numeric Date.now() ids)
+  // are left untouched.
+  Object.values(agg).forEach(entry=>{
+    const autoId = 'auto:'+entry.team+'|'+entry.name;
+    const idx = scorers.findIndex(s=>s.id===autoId);
+    if(idx>-1){
+      scorers[idx].goals = entry.goals;
+      scorers[idx].assists = entry.assists;
+    } else {
+      scorers.push({ id:autoId, name:entry.name, team:entry.team, goals:entry.goals, assists:entry.assists, source:'api' });
+    }
+  });
+
+  saveLocal();
+  autoScorersLoading = false;
+  console.log(`⚽ ${Object.keys(agg).length} jugador(es) con goles/asistencias detectados automáticamente`);
+  if(currentTab==='goleadores') renderScorers();
 }
 
 // ─────────────────────────────────────────────────
@@ -852,16 +1363,16 @@ function saveScorer(){
   const assists=+document.getElementById('inp-assists').value||0;
   if(!name||!team){alert('Por favor ingresa nombre y equipo.');return;}
   if(editingScorerId!==null){
-    const idx=scorers.findIndex(s=>s.id===editingScorerId);
-    if(idx>-1) scorers[idx]={id:editingScorerId,name,team,goals,assists};
+    const idx=scorers.findIndex(s=>String(s.id)===String(editingScorerId));
+    if(idx>-1) scorers[idx]={...scorers[idx],name,team,goals,assists};
     editingScorerId=null;
   } else {
-    scorers.push({id:Date.now(),name,team,goals,assists});
+    scorers.push({id:String(Date.now()),name,team,goals,assists,source:'manual'});
   }
   saveLocal(); toggleScorerForm(false); renderScorers();
 }
 function editScorer(id){
-  const s=scorers.find(x=>x.id===id); if(!s) return;
+  const s=scorers.find(x=>String(x.id)===String(id)); if(!s) return;
   editingScorerId=id;
   document.getElementById('inp-name').value=s.name;
   document.getElementById('inp-team').value=s.team;
@@ -872,7 +1383,7 @@ function editScorer(id){
 }
 function deleteScorer(id){
   if(!confirm('¿Eliminar goleador?')) return;
-  scorers=scorers.filter(s=>s.id!==id); saveLocal(); renderScorers();
+  scorers=scorers.filter(s=>String(s.id)!==String(id)); saveLocal(); renderScorers();
 }
 function sortScorers(key){
   sortKey=key;
@@ -892,15 +1403,19 @@ function renderScorers(){
   });
   body.innerHTML=sorted.map((s,i)=>{
     const rc=i===0?'rank-gold':i===1?'rank-silver':i===2?'rank-bronze':'';
+    const idAttr = "'" + String(s.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'") + "'"; // single-quoted JS literal, safe inside the double-quoted onclick attr
+    const srcTag = s.source==='api'
+      ? `<span class="api-src" style="display:block;margin-top:2px">🌐 API</span>`
+      : `<span class="api-src" style="display:block;margin-top:2px">✏️ Manual</span>`;
     return `<tr>
       <td class="rank-num ${rc}">${i+1}</td>
       <td class="goals-val">⚽ ${s.goals}</td>
-      <td><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:1.3rem">${flag(s.team)}</span><span class="scorer-name">${s.name}</span></div></td>
+      <td><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:1.3rem">${flag(s.team)}</span><div><span class="scorer-name">${s.name}</span>${srcTag}</div></div></td>
       <td style="font-family:'Barlow Condensed',sans-serif">${s.team}</td>
       <td class="assist-val">🎯 ${s.assists}</td>
       <td style="display:flex;gap:.4rem">
-        <button class="btn-edit" onclick="editScorer(${s.id})">Editar</button>
-        <button class="btn-del" onclick="deleteScorer(${s.id})">Eliminar</button>
+        <button class="btn-edit" onclick="editScorer(${idAttr})">Editar</button>
+        <button class="btn-del" onclick="deleteScorer(${idAttr})">Eliminar</button>
       </td>
     </tr>`;
   }).join('');
