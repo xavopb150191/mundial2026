@@ -256,15 +256,18 @@ const F = {
 
 // Name normalization: API names → our display names
 const NORMALIZE = {
-  'Mexico':'México','South Africa':'Sudáfrica','South Korea':'Corea del Sur','Czech Republic':'Rep. Checa',
-  'Canada':'Canadá','Bosnia and Herzegovina':'Bosnia','Switzerland':'Suiza','Brazil':'Brasil',
-  'Morocco':'Marruecos','Haiti':'Haití','Scotland':'Escocia','United States':'EE.UU.','USA':'EE.UU.',
-  'Turkey':'Turquía','Germany':'Alemania','Curacao':'Curazao','Ivory Coast':'Costa de Marfil',"Côte d'Ivoire":'Costa de Marfil',
-  'Netherlands':'Países Bajos','Japan':'Japón','Sweden':'Suecia','Tunisia':'Túnez',
-  'Belgium':'Bélgica','Egypt':'Egipto','Iran':'Irán','New Zealand':'Nueva Zelanda',
-  'Spain':'España','Cape Verde':'Cabo Verde','Saudi Arabia':'Arabia Saudita',
+  'Mexico':'México','South Africa':'Sudáfrica','South Korea':'Corea del Sur','Korea Republic':'Corea del Sur',
+  'Czech Republic':'Rep. Checa','Czechia':'Rep. Checa',
+  'Canada':'Canadá','Bosnia and Herzegovina':'Bosnia','Bosnia-Herzegovina':'Bosnia','Switzerland':'Suiza','Brazil':'Brasil',
+  'Morocco':'Marruecos','Haiti':'Haití','Scotland':'Escocia','United States':'EE.UU.','USA':'EE.UU.','United States of America':'EE.UU.',
+  'Turkey':'Turquía','Turkiye':'Turquía','Türkiye':'Turquía','Germany':'Alemania','Curacao':'Curazao','Curaçao':'Curazao',
+  'Ivory Coast':'Costa de Marfil',"Côte d'Ivoire":'Costa de Marfil','Cote d\'Ivoire':'Costa de Marfil',
+  'Netherlands':'Países Bajos','Holland':'Países Bajos','Japan':'Japón','Sweden':'Suecia','Tunisia':'Túnez',
+  'Belgium':'Bélgica','Egypt':'Egipto','Iran':'Irán','IR Iran':'Irán','New Zealand':'Nueva Zelanda',
+  'Spain':'España','Cape Verde':'Cabo Verde','Cabo Verde':'Cabo Verde','Saudi Arabia':'Arabia Saudita','KSA':'Arabia Saudita',
   'France':'Francia','Iraq':'Irak','Norway':'Noruega','Algeria':'Argelia','Jordan':'Jordania',
-  'Uzbekistan':'Uzbekistán','DR Congo':'RD Congo','England':'Inglaterra','Croatia':'Croacia','Panama':'Panamá'
+  'Uzbekistan':'Uzbekistán','DR Congo':'RD Congo','DR Congo (Congo-Kinshasa)':'RD Congo','Congo DR':'RD Congo',
+  'England':'Inglaterra','Croatia':'Croacia','Panama':'Panamá','Republic of Ireland':'Irlanda'
 };
 
 function norm(name){ return NORMALIZE[name] || name; }
@@ -434,24 +437,28 @@ async function fetchESPN(dateStr){
 }
 
 // Fetch the FULL tournament range (start to today+1) so all past jornadas show up,
-// not just matches near "today". ESPN supports a date range like 20260611-20260623.
+// not just matches near "today". The range query (dates=A-B) is unreliable on
+// this ESPN endpoint and silently falls back to "today only" — so we always
+// fetch every elapsed day individually, in parallel, which is reliable.
 async function fetchAllFromESPN(){
-  const start = '20260611';
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const end = tomorrow.toISOString().slice(0,10).replace(/-/g,'');
-  try {
-    // Try a single range request first (more efficient)
-    return await fetchESPN(`${start}-${end}`);
-  } catch(err) {
-    // Fallback: fetch day-by-day for the elapsed part of the tournament
-    const days = [];
-    for(let d = new Date('2026-06-11'); d <= tomorrow; d.setDate(d.getDate()+1)){
-      days.push(d.toISOString().slice(0,10).replace(/-/g,''));
-    }
-    const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
-    return results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+
+  const days = [];
+  for(let d = new Date('2026-06-11'); d <= tomorrow; d.setDate(d.getDate()+1)){
+    days.push(d.toISOString().slice(0,10).replace(/-/g,''));
   }
+
+  console.log(`Pidiendo ${days.length} días: ${days[0]} a ${days[days.length-1]}`);
+  const results = await Promise.allSettled(days.map(d => fetchESPN(d)));
+  const ok = results.filter(r => r.status === 'fulfilled').length;
+  console.log(`${ok}/${days.length} días respondieron correctamente`);
+
+  const allMatches = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+  console.log(`Total de partidos encontrados: ${allMatches.length}`, allMatches);
+
+  if(allMatches.length === 0) throw new Error('ESPN devolvió 0 partidos en todos los días');
+  return allMatches;
 }
 
 const SOURCES = [
@@ -528,10 +535,14 @@ function processApiGames(data){
   const games = Array.isArray(data) ? data : (data.data || data.matches || data.games || []);
   apiScores = {};
   let hasLive = false;
+  let matchedCount = 0;
+  const unmatched = [];
 
   games.forEach(g => {
-    const home = norm(g.home_team_en || g.home || g.homeTeam || '');
-    const away = norm(g.away_team_en || g.away || g.awayTeam || '');
+    const rawHome = g.home_team_en || g.home || g.homeTeam || '';
+    const rawAway = g.away_team_en || g.away || g.awayTeam || '';
+    const home = norm(rawHome);
+    const away = norm(rawAway);
     const status = (g.time_elapsed || g.status || '').toLowerCase();
     const finished = g.finished === true || g.finished === 'true' || status === 'finished' || status === 'ft';
     const live = ['h1','hf','h2','1h','ht','2h','live'].includes(status);
@@ -539,18 +550,29 @@ function processApiGames(data){
     if(live) hasLive = true;
 
     // Find matching match in our data
+    let found = false;
     for(const gKey of Object.keys(GROUPS)){
       for(const m of GROUPS[gKey].matches){
         if(m.home === home && m.away === away){
+          found = true;
           const h = parseInt(g.home_score ?? g.homeScore ?? g.score_home ?? -1);
           const a = parseInt(g.away_score ?? g.awayScore ?? g.score_away ?? -1);
           if(h >= 0 && a >= 0){
             apiScores[m.id] = {h, a, live, finished};
+            matchedCount++;
           }
         }
       }
     }
+    if(!found && rawHome && rawAway){
+      unmatched.push(`"${rawHome}" vs "${rawAway}" (normalizado: "${home}" vs "${away}")`);
+    }
   });
+
+  console.log(`✓ ${matchedCount} resultados aplicados a partidos conocidos`);
+  if(unmatched.length){
+    console.log(`⚠ ${unmatched.length} partidos de ESPN NO coincidieron con nuestra base:`, unmatched);
+  }
 
   // If any live match, refresh faster
   if(hasLive){
