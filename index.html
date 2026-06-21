@@ -9,7 +9,18 @@
 <style>
 :root{--gold:#C9A84C;--gold-l:#E8C96A;--dark:#0A0A0E;--dark2:#111118;--dark3:#1A1A24;--card:#14141E;--border:rgba(201,168,76,0.18);--text:#E8E4D8;--muted:#8A8578;--green:#3DBA6A;--red:#D62B2B}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;position:relative}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16 Z M28 34 L56 50 L56 84 L28 100 L0 84 L0 50 Z' fill='none' stroke='%23C9A84C' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:84px 150px;
+}
+header,.main-nav,.api-bar,.group-bar,main,footer{position:relative;z-index:1}
 header{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:4rem 2rem}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.08) 0%,transparent 70%),var(--dark)}
 .pitch-lines{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,.5) 80px),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,.5) 80px)}
@@ -18,6 +29,30 @@ header{position:relative;min-height:100vh;display:flex;flex-direction:column;ali
 .c2{width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%);animation:spin 80s linear infinite}
 .c3{width:1200px;height:1200px;top:50%;left:50%;transform:translate(-50%,-50%);animation:spin 120s linear infinite reverse}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* SOCCER BALL — original line-art motif, not the FIFA emblem */
+.hero-ball{
+  position:absolute;top:50%;left:50%;width:640px;height:640px;
+  transform:translate(-50%,-50%);opacity:.07;pointer-events:none;
+  animation:spin 90s linear infinite;
+}
+.hero-ball circle{fill:none;stroke:var(--gold);stroke-width:1.2}
+.hero-ball path{fill:none;stroke:var(--gold);stroke-width:1.2}
+
+/* STADIUM SILHOUETTE — original arched-roof motif along the hero horizon */
+.stadium-silhouette{
+  position:absolute;left:0;right:0;bottom:0;width:100%;height:160px;
+  opacity:.5;pointer-events:none;
+}
+
+/* CONFETTI — ambient host-nation colors (USA / México / Canadá), very subtle */
+.confetti{position:absolute;border-radius:1px;pointer-events:none;animation:drift linear infinite}
+@keyframes drift{
+  0%{transform:translateY(0) rotate(0deg);opacity:0}
+  10%{opacity:var(--cf-op,.18)}
+  90%{opacity:var(--cf-op,.18)}
+  100%{transform:translateY(-40px) rotate(180deg);opacity:0}
+}
 .eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;position:relative;margin-bottom:1.5rem;animation:fadeUp .8s ease both}
 .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,15vw,14rem);line-height:.88;position:relative;animation:fadeUp .8s .15s ease both}
 .hero-title .year{display:block;color:var(--gold);font-size:clamp(6rem,18vw,17rem)}
@@ -84,6 +119,25 @@ main{max-width:1400px;margin:0 auto;padding:2.5rem 2rem 6rem}
 .score-badge.manual:hover{border-color:var(--gold);color:var(--gold)}
 .match-meta{display:flex;justify-content:space-between;margin-top:.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--muted)}
 .api-src{font-size:.6rem;color:rgba(201,168,76,.4);letter-spacing:.1em}
+
+/* MATCH DETAILS — goals/cards/subs timeline & lineups */
+.md-toggle{display:block;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;cursor:pointer;margin-top:.7rem;opacity:.8;transition:opacity .2s}
+.md-toggle:hover{opacity:1}
+.match-details-panel{display:none;background:var(--dark2);border-top:1px solid var(--border);padding:1rem 1.4rem}
+.match-details-panel.open{display:block}
+.md-loading,.md-empty{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;color:var(--muted);text-align:center;padding:.6rem 0;letter-spacing:.03em}
+.md-events{display:flex;flex-direction:column;gap:.55rem}
+.md-event{display:flex;align-items:flex-start;gap:.6rem}
+.md-ev-icon{font-size:.95rem;line-height:1.3;flex-shrink:0}
+.md-ev-text{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;color:var(--text);line-height:1.3}
+.md-ev-text strong{color:var(--gold-l);font-weight:700}
+.md-ev-text em{color:var(--muted);font-style:italic}
+.md-lineups{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.md-lineup-team{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.md-player{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;color:var(--text);padding:.2rem 0;display:flex;align-items:baseline;gap:.5rem}
+.md-num{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--muted);min-width:1.3rem}
+.md-pos{font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+@media(max-width:520px){.md-lineups{grid-template-columns:1fr}}
 /* SCORE EDIT */
 .score-edit{display:none;background:var(--dark2);border-top:1px solid var(--border);padding:1rem 1.4rem;align-items:center;gap:1rem;justify-content:center}
 .score-edit.open{display:flex}
@@ -205,6 +259,36 @@ footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);font-
 <header>
   <div class="hero-bg"></div><div class="pitch-lines"></div>
   <div class="c-deco c1"></div><div class="c-deco c2"></div><div class="c-deco c3"></div>
+
+  <svg class="hero-ball" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="95"/>
+    <path d="M100,65 L133.3,89.2 L120.6,128.3 L79.4,128.3 L66.7,89.2 Z"/>
+    <path d="M100,65 L100,5"/>
+    <path d="M133.3,89.2 L190.4,70.6"/>
+    <path d="M120.6,128.3 L155.9,176.9"/>
+    <path d="M79.4,128.3 L44.1,176.9"/>
+    <path d="M66.7,89.2 L9.6,70.6"/>
+  </svg>
+
+  <svg class="stadium-silhouette" viewBox="0 0 1600 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="archPat" width="160" height="160" patternUnits="userSpaceOnUse">
+        <path d="M0,160 L0,90 Q80,10 160,90 L160,160 Z" fill="#111118"/>
+        <path d="M0,90 Q80,10 160,90" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="1600" height="160" fill="url(#archPat)"/>
+  </svg>
+
+  <div class="confetti" style="top:18%;left:12%;width:7px;height:7px;background:#3C3B6E;--cf-op:.2;animation-duration:11s;animation-delay:-2s"></div>
+  <div class="confetti" style="top:30%;left:85%;width:6px;height:6px;background:#006847;--cf-op:.22;animation-duration:9s;animation-delay:-4s"></div>
+  <div class="confetti" style="top:65%;left:8%;width:8px;height:8px;background:#B22234;--cf-op:.18;animation-duration:13s;animation-delay:-1s"></div>
+  <div class="confetti" style="top:22%;left:50%;width:5px;height:5px;background:#006847;--cf-op:.2;animation-duration:10s;animation-delay:-6s"></div>
+  <div class="confetti" style="top:55%;left:90%;width:7px;height:7px;background:#3C3B6E;--cf-op:.16;animation-duration:12s;animation-delay:-3s"></div>
+  <div class="confetti" style="top:75%;left:30%;width:6px;height:6px;background:#FF0000;--cf-op:.18;animation-duration:14s;animation-delay:-7s"></div>
+  <div class="confetti" style="top:12%;left:70%;width:5px;height:5px;background:#B22234;--cf-op:.2;animation-duration:9s;animation-delay:-5s"></div>
+  <div class="confetti" style="top:40%;left:20%;width:6px;height:6px;background:#FF0000;--cf-op:.17;animation-duration:11s;animation-delay:-8s"></div>
+
   <div class="eyebrow">Copa del Mundo FIFA</div>
   <h1 class="hero-title">Mundial<span class="year">2026</span></h1>
   <p class="hero-sub">Estados Unidos · México · Canadá &nbsp;·&nbsp; 11 Jun – 19 Jul</p>
@@ -1093,6 +1177,7 @@ function buildGroupViews(){
               <span>${m.time} MEX</span>
               <span id="ms-${m.id}">${m.venue}</span>
             </div>
+            <span class="md-toggle" id="mdt-${m.id}" onclick="toggleMatchDetails('${m.id}',event)">▾ Alineaciones probables</span>
           </div>
           <div class="score-edit" id="se-${m.id}">
             <div class="score-input-wrap">
@@ -1105,6 +1190,7 @@ function buildGroupViews(){
             <button class="btn-confirm" onclick="saveScore('${m.id}','${gKey}')">✓ Guardar</button>
             <button class="btn-cancel" onclick="closeEdit('${m.id}')">✕</button>
           </div>
+          <div class="match-details-panel" id="md-${m.id}"></div>
         </div>`).join('')
     ).join('');
 
@@ -1134,10 +1220,15 @@ function updateMatchCard(id){
   const mc = document.getElementById('mc-'+id);
   const mj = document.getElementById('mj-'+id);
   const ms = document.getElementById('ms-'+id);
+  const mdt = document.getElementById('mdt-'+id);
   if(!sb||!mc) return;
 
   const s = getScore(id);
-  if(!s){ sb.textContent='– –'; sb.className='score-badge manual'; mc.classList.remove('is-live'); return; }
+  if(!s){
+    sb.textContent='– –'; sb.className='score-badge manual'; mc.classList.remove('is-live');
+    if(mdt && !mdt.dataset.locked) mdt.textContent = '▾ Alineaciones probables';
+    return;
+  }
 
   // Find match
   let m = null;
@@ -1149,6 +1240,7 @@ function updateMatchCard(id){
     mc.classList.add('is-live');
     if(mj) mj.innerHTML = `J${m?.j||''} · ${m?.date||''} <span class="live-tag">EN VIVO</span>`;
     if(ms) ms.innerHTML = `<span class="api-src">🔴 LIVE · ${m?.venue||''}</span>`;
+    if(mdt) mdt.textContent = '▾ Goles y tarjetas en vivo';
   } else {
     sb.textContent = s.h+' – '+s.a;
     sb.className = 'score-badge has-result manual';
@@ -1157,7 +1249,12 @@ function updateMatchCard(id){
       const src = s.source === 'api' ? '🌐 API' : '✏️ Manual';
       ms.innerHTML = `<span class="api-src">${src}</span> ${m?.venue||''}`;
     }
+    if(mdt) mdt.textContent = '▾ Goles, tarjetas y cambios';
   }
+
+  // If the details panel is open and the match just changed state, refresh it
+  const panel = document.getElementById('md-'+id);
+  if(panel && panel.classList.contains('open')) renderMatchDetailsPanel(id);
 }
 
 // ─────────────────────────────────────────────────
@@ -1228,47 +1325,103 @@ function selectGroup(g){
 // AUTO-SCORERS — pulled automatically from ESPN match details
 // ─────────────────────────────────────────────────
 
-// Fetch the detailed event summary for one match and extract goal events.
-// Defensive: ESPN's soccer "keyEvents" shape can vary, so we check a few
-// plausible field paths and just skip anything we can't confidently parse.
-async function fetchMatchGoals(espnId, homeTeam, awayTeam){
+// Fetch the detailed event summary for one match and extract goals, cards,
+// substitutions, and starting lineups. Defensive: ESPN's soccer JSON shape
+// can vary, so we check a few plausible field paths and skip anything we
+// can't confidently parse rather than throwing.
+async function fetchMatchDetails(espnId, homeTeam, awayTeam){
   const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${espnId}`;
   const r = await fetch(url, { signal: AbortSignal.timeout(10000) });
   if(!r.ok) throw new Error('summary '+r.status);
   const j = await r.json();
 
   const rawEvents = j.keyEvents || j.scoringPlays || j.plays || [];
-  const goals = [];
+  const goals = [], cards = [], subs = [];
 
   rawEvents.forEach(ev=>{
     const typeText = (ev.type?.text || ev.type?.name || ev.text || '').toLowerCase();
-    const isGoal = ev.scoringPlay === true || typeText.includes('goal');
-    const isCard = typeText.includes('card') || typeText.includes('yellow') || typeText.includes('red');
-    if(!isGoal || isCard) return;
-
-    const isOwnGoal = typeText.includes('own goal');
     const teamName = norm(ev.team?.displayName || ev.team?.name || '');
     const involved = ev.athletesInvolved || ev.participants || [];
-    const scorerName = involved[0]?.displayName || involved[0]?.athlete?.displayName ||
-                        ev.athlete?.displayName || ev.player?.displayName || null;
-    const assistName = involved[1]?.displayName || involved[1]?.athlete?.displayName || null;
+    const clock = ev.clock?.displayValue || ev.time?.displayValue || '';
 
-    if(scorerName){
-      // Own goals credit the team that BENEFITS (the opponent), per scoring
-      // convention used by official goalscorer tables.
-      const creditTeam = isOwnGoal
-        ? (teamName === homeTeam ? awayTeam : homeTeam)
-        : teamName;
-      goals.push({ name: scorerName, team: creditTeam, assist: assistName, ownGoal: isOwnGoal });
+    const isGoal = ev.scoringPlay === true || typeText.includes('goal');
+    const isCard = typeText.includes('card');
+    const isSub = typeText.includes('substitution') || typeText.includes('sub ');
+
+    if(isGoal && !isCard){
+      const isOwnGoal = typeText.includes('own goal');
+      const scorerName = involved[0]?.displayName || involved[0]?.athlete?.displayName ||
+                          ev.athlete?.displayName || ev.player?.displayName || null;
+      const assistName = involved[1]?.displayName || involved[1]?.athlete?.displayName || null;
+      if(scorerName){
+        // Own goals credit the team that BENEFITS, per standard goalscorer convention.
+        const creditTeam = isOwnGoal ? (teamName===homeTeam?awayTeam:homeTeam) : teamName;
+        goals.push({ name:scorerName, team:creditTeam, assist:assistName, ownGoal:isOwnGoal, clock });
+      }
+    } else if(isCard){
+      const playerName = involved[0]?.displayName || involved[0]?.athlete?.displayName || null;
+      if(playerName) cards.push({ name:playerName, team:teamName, red:typeText.includes('red'), clock });
+    } else if(isSub){
+      const playerOut = involved.find(p=>p.playDirection==='out')?.displayName
+                       || involved.find(p=>p.playDirection==='out')?.athlete?.displayName
+                       || involved[0]?.displayName || null;
+      const playerIn = involved.find(p=>p.playDirection==='in')?.displayName
+                      || involved.find(p=>p.playDirection==='in')?.athlete?.displayName
+                      || involved[1]?.displayName || null;
+      if(playerIn || playerOut) subs.push({ team:teamName, out:playerOut, in:playerIn, clock });
     }
   });
 
-  return goals;
+  // Lineups — starting XI per team, only kept if both sides resolved cleanly.
+  const rosterGroups = j.rosters || j.boxscore?.players || [];
+  let lineups = null;
+  if(rosterGroups.length){
+    const tmp = {};
+    rosterGroups.forEach(side=>{
+      const teamName = norm(side.team?.displayName || side.team?.name || '');
+      const players = side.roster || side.statistics?.[0]?.athletes || [];
+      const starters = players
+        .filter(p=> p.starter===true || p.didNotPlay===false)
+        .map(p=>({
+          name: p.athlete?.displayName || p.displayName || '',
+          number: p.jersey || p.athlete?.jersey || '',
+          position: p.position?.abbreviation || p.position?.name || ''
+        }))
+        .filter(p=>p.name);
+      if(starters.length) tmp[teamName] = starters;
+    });
+    if(Object.keys(tmp).length === 2) lineups = tmp;
+  }
+
+  return { goals, cards, subs, lineups };
+}
+
+// On-demand fetch+cache for a single match (used when the person opens a
+// details panel for a match we haven't already cached via the background
+// refresh loop — e.g. an upcoming match we want lineups for).
+async function ensureMatchDetails(matchId){
+  const espnId = espnEventIds[matchId];
+  if(!espnId) return null;
+  if(matchEventsCache[espnId]) return matchEventsCache[espnId];
+
+  let m = null;
+  for(const g of Object.values(GROUPS)){ m = g.matches.find(x=>x.id===matchId); if(m) break; }
+  if(!m) return null;
+
+  try {
+    const details = await fetchMatchDetails(espnId, m.home, m.away);
+    const score = apiScores[matchId];
+    matchEventsCache[espnId] = { ...details, cachedFinal: !!score?.finished };
+    return matchEventsCache[espnId];
+  } catch(err){
+    console.warn(`No se pudieron obtener detalles de ${matchId}:`, err.message);
+    return null;
+  }
 }
 
 // Refresh the auto-scorers table from all group-stage matches that have
 // started. Finished matches are cached (fetched once); live matches are
-// re-fetched every cycle to catch new goals.
+// re-fetched every cycle to catch new goals, cards, and substitutions.
 async function updateAutoScorers(){
   if(autoScorersLoading) return;
   autoScorersLoading = true;
@@ -1288,15 +1441,22 @@ async function updateAutoScorers(){
   if(toFetch.length){
     console.log(`⚽ Buscando goleadores en ${toFetch.length} partido(s)...`);
     const results = await Promise.allSettled(
-      toFetch.map(x => fetchMatchGoals(x.espnId, x.home, x.away))
+      toFetch.map(x => fetchMatchDetails(x.espnId, x.home, x.away))
     );
     results.forEach((res, i)=>{
       const x = toFetch[i];
       if(res.status === 'fulfilled'){
-        matchEventsCache[x.espnId] = { goals: res.value, cachedFinal: x.finished };
+        matchEventsCache[x.espnId] = { ...res.value, cachedFinal: x.finished };
       } else {
         console.warn(`No se pudieron obtener goles de ${x.matchId}:`, res.reason?.message);
       }
+    });
+    // Refresh any open details panels so live cards/subs/goals show up without a manual toggle
+    Object.keys(GROUPS).forEach(gKey=>{
+      GROUPS[gKey].matches.forEach(m=>{
+        const panel = document.getElementById('md-'+m.id);
+        if(panel && panel.classList.contains('open')) renderMatchDetailsPanel(m.id);
+      });
     });
   }
 
@@ -1334,6 +1494,89 @@ async function updateAutoScorers(){
   autoScorersLoading = false;
   console.log(`⚽ ${Object.keys(agg).length} jugador(es) con goles/asistencias detectados automáticamente`);
   if(currentTab==='goleadores') renderScorers();
+}
+
+// ─────────────────────────────────────────────────
+// PER-MATCH DETAILS PANEL — goals/cards/subs or lineups
+// ─────────────────────────────────────────────────
+async function toggleMatchDetails(id, e){
+  e && e.stopPropagation();
+  const panel = document.getElementById('md-'+id);
+  if(!panel) return;
+  if(panel.classList.contains('open')){
+    panel.classList.remove('open');
+    return;
+  }
+  panel.classList.add('open');
+  panel.innerHTML = `<div class="md-loading">Cargando datos del partido…</div>`;
+  await renderMatchDetailsPanel(id);
+}
+
+async function renderMatchDetailsPanel(id){
+  const panel = document.getElementById('md-'+id);
+  if(!panel) return;
+
+  let m = null;
+  for(const g of Object.values(GROUPS)){ m = g.matches.find(x=>x.id===id); if(m) break; }
+  if(!m) return;
+
+  const espnId = espnEventIds[id];
+  if(!espnId){
+    panel.innerHTML = `<div class="md-empty">Aún no hay datos de ESPN disponibles para este partido.</div>`;
+    return;
+  }
+
+  let entry = matchEventsCache[espnId];
+  if(!entry) entry = await ensureMatchDetails(id);
+  if(!entry){
+    panel.innerHTML = `<div class="md-empty">No se pudieron cargar los detalles. Intenta de nuevo más tarde.</div>`;
+    return;
+  }
+
+  const score = getScore(id);
+  const started = !!score;
+
+  if(started){
+    const events = [
+      ...(entry.goals||[]).map(x=>({...x, kind:'goal'})),
+      ...(entry.cards||[]).map(x=>({...x, kind:'card'})),
+      ...(entry.subs||[]).map(x=>({...x, kind:'sub'})),
+    ];
+    if(!events.length){
+      panel.innerHTML = `<div class="md-empty">Sin eventos detallados todavía para este partido.</div>`;
+      return;
+    }
+    panel.innerHTML = `<div class="md-events">` + events.map(ev=>{
+      if(ev.kind==='goal'){
+        return `<div class="md-event">
+          <span class="md-ev-icon">⚽</span>
+          <span class="md-ev-text"><strong>${ev.name}</strong> (${flag(ev.team)} ${ev.team})${ev.ownGoal?' <em>— autogol</em>':''}${ev.assist?` · asistencia de ${ev.assist}`:''}</span>
+        </div>`;
+      }
+      if(ev.kind==='card'){
+        return `<div class="md-event">
+          <span class="md-ev-icon">${ev.red?'🟥':'🟨'}</span>
+          <span class="md-ev-text"><strong>${ev.name}</strong> (${flag(ev.team)} ${ev.team})</span>
+        </div>`;
+      }
+      return `<div class="md-event">
+        <span class="md-ev-icon">🔄</span>
+        <span class="md-ev-text">${ev.in?`<strong>${ev.in}</strong> entra`:'Cambio'}${ev.out?` por <strong>${ev.out}</strong>`:''} (${flag(ev.team)} ${ev.team})</span>
+      </div>`;
+    }).join('') + `</div>`;
+  } else {
+    if(!entry.lineups){
+      panel.innerHTML = `<div class="md-empty">Las alineaciones se publican aproximadamente 1 hora antes del partido.</div>`;
+      return;
+    }
+    const teams = Object.keys(entry.lineups);
+    panel.innerHTML = `<div class="md-lineups">` + teams.map(t=>`
+      <div>
+        <div class="md-lineup-team">${flag(t)} ${t}</div>
+        ${entry.lineups[t].map(p=>`<div class="md-player">${p.number?`<span class="md-num">${p.number}</span>`:''}<span>${p.name}</span>${p.position?`<span class="md-pos">${p.position}</span>`:''}</div>`).join('')}
+      </div>
+    `).join('') + `</div>`;
+  }
 }
 
 // ─────────────────────────────────────────────────
